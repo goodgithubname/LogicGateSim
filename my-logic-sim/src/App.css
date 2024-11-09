@@ -1,0 +1,34 @@
+/* Ensure the root and body take up the full viewport */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* Take full height */
+}
+
+.app-container {
+  height: 100%; /* Fill the entire viewport height */
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex-grow: 1; /* Take up remaining space after the navbar */
+  position: relative;
+  display: flex;
+  justify-content: center; /* Optional: Center the content, can remove if you want */
+}
+
+.AppNavbar {
+  z-index: 1000;
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; /* Ensure full height */
+  background-color: #f0f0f0; /* Optional canvas background */
+  z-index: 0; /* Canvas behind other elements */
+}
+

@@ -1,0 +1,155 @@
+/* Toolbar.css */
+.toolbar {
+  width: 35vw;
+  padding: 20px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  background-color: blueviolet;
+  transition: width 0.3s ease, padding 0.3s ease;
+  display: flex;
+  scrollbar-width: none;
+  padding-right: 35px;
+  overflow-x: hidden;
+}
+
+.toolbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Edge */
+}
+
+.toolbar.collapsed .arrow-icon {
+  transform: rotate(180deg); /* Rotate the icon when collapsed */
+}
+
+.toolbar.collapsed {
+  width: 1.5vw; /* Set a smaller width for the collapsed state */
+  padding: 0;
+  visibility: visible; /* Keep the sidebar visible but narrow */
+  transition: width 0.3s ease, padding 0.3s ease, visibility 0s ease 0.3s; /* Ensure transition is smooth */
+}
+
+.toolbar.collapsed .toolbar-items {
+  visibility: hidden; /* Hide the items when collapsed */
+  opacity: 0; /* Fade out the items when collapsed */
+}
+
+/* Styling for individual buttons */
+.toolbar-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the content inside the button */
+  justify-content: center;
+  padding: 0;
+  background-color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #333;
+  text-align: center;
+  font-size: 1em;
+  position: relative;
+  transition: background-color 0.3s;
+  width: 100%; /* Ensure buttons take full column width */
+  box-sizing: border-box; /* Include padding and border in width/height calculations */
+}
+
+/* Ensure the button is a square */
+.toolbar-button::before {
+  content: '';
+  display: block;
+  padding-top: 100%; /* This makes the button's height equal to its width */
+}
+
+/* Placeholder for the component graphic */
+.component-graphic {
+  width: 70%;
+  height: 70%;
+  background-color: #ddd; /* Placeholder for graphic */
+  margin-bottom: 10px;
+  border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Label below the graphic */
+.component-label {
+  font-size: 0.9em;
+  color: #333333;
+  margin-top: 10px;
+}
+
+/* Button hover effect */
+.toolbar-button:hover {
+  background-color: #ddd;
+}
+
+/* Optional: Hide content when collapsed */
+.toolbar.collapsed .toolbar-items {
+  display: none;
+}
+
+.toolbar-items {
+  transition: opacity 0.3s ease;
+  flex-grow: 1; /* Make sure this area can expand and collapse */
+  flex-direction: column;  /* Arrange contents vertically */
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.toolbar-items::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Edge */
+}
+
+/* Center the collapse button and make it visible even in collapsed state */
+.collapse-btn {
+  position: absolute;
+  right: -1vw;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2vw;  /* Button width */
+  height: 5vw;  /* Button height */
+  background-color: #dddddd;
+  border-radius: 5px;  /* Slight rounding for the box */
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it's above other elements */
+  padding: 0;
+  border:none;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.arrow-icon {
+  transition: transform 0.5s ease; /* Smooth transition for icon rotation */
+  font-size: 100%;
+}
+
+/* Styling for the groups of logic components */
+.logic-group {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Logic component buttons */
+.logic-item {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+}
