@@ -1,7 +1,34 @@
-import React, { useRef, useEffect } from 'react';
+import { useDrop } from 'react-dnd';
+import { useState, useRef, useEffect } from 'react';
+import Grid from '../Grid';  // Importing the Grid component
 
-function Canvas() {
-  const canvasRef = useRef(null);
+const Canvas = () => {
+  const [components, setComponents] = useState([]);
+  const canvasRef = useRef(null); // Reference for the canvas
+
+  // Setting up the drop functionality
+  const [{ canDrop, isOver }, drop] = useDrop({
+    accept: 'LOGIC_GATE', // Only accept items of type 'LOGIC_GATE'
+    drop: (item, monitor) => {
+      const canvasRect = canvasRef.current.getBoundingClientRect();
+      const offsetX = monitor.getClientOffset().x - canvasRect.left; // X position of the drop on canvas
+      const offsetY = monitor.getClientOffset().y - canvasRect.top;  // Y position of the drop on canvas
+
+      setComponents((prev) => [
+        ...prev,
+        {
+          type: item.type,
+          id: Date.now(),
+          label: item.label,
+          position: { x: offsetX, y: offsetY },
+        },
+      ]);
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    }),
+  });
 
   const drawGrid = (ctx, width, height, gridSize) => {
     ctx.strokeStyle = '#ccc'; // Grid line color
@@ -29,34 +56,59 @@ function Canvas() {
     const ctx = canvas.getContext('2d');
 
     const updateCanvasSize = () => {
-      // Resize canvas to full window size
       const width = window.innerWidth;
       const height = window.innerHeight;
 
       canvas.width = width;
       canvas.height = height;
 
-      // Use the smaller dimension to calculate grid size
       const gridSize = 20; // Adjust grid size if needed
-      const gridSpacing = Math.min(width, height) / (Math.floor(Math.min(width, height) / gridSize));
-
-      // Draw the grid with the new gridSpacing
-      drawGrid(ctx, width, height, gridSpacing);
+      drawGrid(ctx, width, height, gridSize);
     };
 
-    // Initial canvas size and grid drawing
     updateCanvasSize();
-
-    // Redraw canvas on window resize
     window.addEventListener('resize', updateCanvasSize);
 
-    // Cleanup on component unmount
     return () => {
       window.removeEventListener('resize', updateCanvasSize);
     };
   }, []);
 
-  return <canvas ref={canvasRef} />;
-}
+  return (
+    <div
+      ref={drop}
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: '100vh',
+        border: '2px dashed #ccc',
+        background: 'rgba(255, 255, 255, 0.8)', // Transparent background for dropped items
+      }}
+    >
+      {/* Canvas Background with Grid */}
+      <canvas ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0 }} />
+
+      {/* Render the dropped components */}
+      {components.map((component) => (
+        <div
+          key={component.id}
+          className="dropped-item"
+          style={{
+            position: 'absolute',
+            left: component.position.x,
+            top: component.position.y,
+            border: '1px solid black',
+            padding: '10px',
+            backgroundColor: 'lightgray',
+            width: '100px', // Set a fixed width for the components
+            height: '50px', // Set a fixed height for the components
+          }}
+        >
+          <span>{component.label}</span>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 export default Canvas;
