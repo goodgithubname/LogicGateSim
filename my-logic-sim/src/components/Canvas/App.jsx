@@ -10,12 +10,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="app-container" style={{ overflow: 'hidden', height: '100vh' }}>
+      <div className="app-container">
         <AppNavbar />
         <Toolbar />
-        <div className="content" style={{ width: '100%', height: '100%', position: 'relative' }}>
+        <div className="content">
           <Canvas />
-          {/* <Grid /> Canvas with grid */}
+          {/* <className /> Canvas with className */}
         </div>
       </div>
     </DndProvider>

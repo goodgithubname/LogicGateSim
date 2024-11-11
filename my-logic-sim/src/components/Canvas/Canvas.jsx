@@ -1,6 +1,5 @@
 import { useDrop } from 'react-dnd';
 import { useState, useRef, useEffect } from 'react';
-import Grid from '../Grid';  // Importing the Grid component
 
 const Canvas = () => {
   const [components, setComponents] = useState([]);
@@ -14,13 +13,18 @@ const Canvas = () => {
       const offsetX = monitor.getClientOffset().x - canvasRect.left; // X position of the drop on canvas
       const offsetY = monitor.getClientOffset().y - canvasRect.top;  // Y position of the drop on canvas
 
+      const componentWidth = 100; // Set to actual component width
+      const componentHeight = 100; // Set to actual component height
+      const adjustedX = offsetX - componentWidth / 2;
+      const adjustedY = offsetY - componentHeight / 2;
+
       setComponents((prev) => [
         ...prev,
         {
           type: item.type,
           id: Date.now(),
           label: item.label,
-          position: { x: offsetX, y: offsetY },
+          position: { x: adjustedX, y: adjustedY },
         },
       ]);
     },
@@ -30,6 +34,7 @@ const Canvas = () => {
     }),
   });
 
+  // Function to draw the grid
   const drawGrid = (ctx, width, height, gridSize) => {
     ctx.strokeStyle = '#ccc'; // Grid line color
     ctx.lineWidth = 0.5;
@@ -51,6 +56,7 @@ const Canvas = () => {
     }
   };
 
+  // Resize the canvas and redraw the grid whenever the window size changes
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
@@ -62,13 +68,22 @@ const Canvas = () => {
       canvas.width = width;
       canvas.height = height;
 
+      // Set canvas size to fill viewport and prevent overflow
+      canvas.style.width = '100vw';
+      canvas.style.height = '100vh';
+
       const gridSize = 20; // Adjust grid size if needed
+      // Clear the previous grid drawing
+      ctx.clearRect(0, 0, width, height);
+
+      // Draw the grid after resizing
       drawGrid(ctx, width, height, gridSize);
     };
 
-    updateCanvasSize();
-    window.addEventListener('resize', updateCanvasSize);
+    updateCanvasSize(); // Initial grid drawing
+    window.addEventListener('resize', updateCanvasSize); // Update on resize
 
+    // Cleanup on component unmount
     return () => {
       window.removeEventListener('resize', updateCanvasSize);
     };
@@ -83,6 +98,9 @@ const Canvas = () => {
         height: '100vh',
         border: '2px dashed #ccc',
         background: 'rgba(255, 255, 255, 0.8)', // Transparent background for dropped items
+        overflow: 'hidden', // Prevent scrollbars from appearing
+        margin: 0,  // Ensure no margin is added to the container
+        padding: 0, // Ensure no padding is added
       }}
     >
       {/* Canvas Background with Grid */}
@@ -101,7 +119,9 @@ const Canvas = () => {
             padding: '10px',
             backgroundColor: 'lightgray',
             width: '100px', // Set a fixed width for the components
-            height: '50px', // Set a fixed height for the components
+            height: '100px', // Set a fixed height for the components
+            textAlign: 'center', // Center the label inside the component
+            lineHeight: '100px', // Vertically center the label inside the component
           }}
         >
           <span>{component.label}</span>

@@ -45,25 +45,25 @@ const Toolbar = () => {
         <div className="logic-group">
           <h4>Inputs</h4>
           <div className="row">
-            <DraggableButton label="Toggle Button" type="TOGGLE_BUTTON" />
-            <DraggableButton label="Hold Button" type="HOLD_BUTTON" />
-            <DraggableButton label="Pulse" type="PULSE" />
+            <DraggableButton label="Toggle Button" type="INPUT_BUTTON" />
+            <DraggableButton label="Hold Button" type="INPUT_BUTTON" />
+            <DraggableButton label="Pulse" type="INPUT_BUTTON" />
           </div>
         </div>
         <div className="logic-group">
           <h4>Logic Gates</h4>
           <div className="row">
-            <DraggableButton label="NOT Gate" type="NOT_GATE" />
-            <DraggableButton label="OR Gate" type="OR_GATE" />
-            <DraggableButton label="AND Gate" type="AND_GATE" />
+            <DraggableButton label="NOT Gate" type="LOGIC_GATE" />
+            <DraggableButton label="OR Gate" type="LOGIC_GATE" />
+            <DraggableButton label="AND Gate" type="LOGIC_GATE" />
           </div>
           <div className="row">
-            <DraggableButton label="XOR Gate" type="TOGGLE_BUTTON" />
-            <DraggableButton label="NAND Gate" type="NAND_GATE" />
-            <DraggableButton label="NOR Gate" type="NOR_GATE" />
+            <DraggableButton label="XOR Gate" type="LOGIC_GATE" />
+            <DraggableButton label="NAND Gate" type="LOGIC_GATE" />
+            <DraggableButton label="NOR Gate" type="LOGIC_GATE" />
           </div>
           <div className="row">
-            <DraggableButton label="XNOR Gate" type="XNOR_GATE" />
+            <DraggableButton label="XNOR Gate" type="LOGIC_GATE" />
           </div>
         </div>
         <div className="logic-group">
